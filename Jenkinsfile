@@ -50,7 +50,7 @@ pipeline{
         }
         stage('Trigger Deploy'){
              when {
-                expression { params.deploy }
+                expression { params.Deploy }
             }
             steps{
                 script{
