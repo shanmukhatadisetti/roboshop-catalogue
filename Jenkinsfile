@@ -13,6 +13,9 @@ pipeline{
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
     }
+    parameters {
+        booleanParam(name: 'Deploy', defaultValue: false, description: 'Toggle this value')
+    }
     stages{
         stage('Read Package.json'){
             steps{
@@ -42,6 +45,18 @@ pipeline{
                             docker push ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${appVersion}
                         """
                     }
+                }
+            }
+        }
+        stage('Trigger Deploy'){
+             when {
+                expression { params.deploy }
+            }
+            steps{
+                script{
+                    build job: 'catalogue-cd'
+                    propagate: false
+                    wait: false
                 }
             }
         }
