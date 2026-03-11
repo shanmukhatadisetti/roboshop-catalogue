@@ -54,11 +54,11 @@ pipeline{
             }
             steps{
                 script{
-                    build job: 'catalogue-cd'
+                    build job: 'catalogue-cd',
                      parameters: [
-                          string(name: 'appVersion', value: "${appVersion}"),
-                      ]
-                    propagate: false
+                          string(name: 'appVersion', value: "${appVersion}")
+                      ],
+                    propagate: false,
                     wait: false
                 }
             }
